@@ -41,10 +41,10 @@ test -n "$DOCKER_REMOTE" || err 2 "\$DOCKER_REMOTE required (docker remote url, 
 
 # clone repository
 gitrepo="$tmp/calcom-docker"
-git clone https://github.com/calcom/docker $gitrepo
-cd $gitrepo
+git clone https://github.com/calcom/docker "$gitrepo"
+cd "$gitrepo"
 git submodule update --remote --init
-git -C calcom checkout $CAL_GITREF
+git -C calcom checkout "$CAL_GITREF"
 
 # build docker image
 docker run -d -e POSTGRES_USER=cal -e POSTGRES_PASSWORD=cal \
