@@ -1,0 +1,28 @@
+name: Lint
+on:
+  - pull_request
+
+jobs:
+  shellcheck:
+    name: shellcheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Enable problem matcher
+        run: |
+          echo "::add-matcher::.github/shellcheck-gcc.json"
+
+      - name: Download shellcheck
+        run: |
+          scversion="v0.8.0"
+          baseurl="https://github.com/koalaman/shellcheck/releases/download"
+          filename="shellcheck-${scversion}.linux.x86_64.tar.xz"
+
+          curl -LOs "${baseurl}/${scversion}/${filename}"
+          tar -xf "${filename}"
+          mv "shellcheck-${scversion}/shellcheck" shellcheck
+
+      - name: Run shellcheck
+        run: |
+          find . -type f -name "*.sh" -print0 | xargs -0 ./shellcheck -f gcc
