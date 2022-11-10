@@ -31,7 +31,7 @@ CHANNELID=$(
 )
 RECIPIENT=${USERID:-$CHANNELID}
 
-TEXT="device: \`$HOSTNAME\`, user: \`$USER\`, date: \`$(date +%Y-%m-%dT%H:%M:%S%z)\`
+TEXT="device: \`$(hostname)\`, user: \`$USER\`, date: \`$(date +%Y-%m-%dT%H:%M:%S%z)\`
 \`\`\`$(cat -)\`\`\`"
 
 curl -X POST -H "Authorization: Bearer $(_tokenget)" \
