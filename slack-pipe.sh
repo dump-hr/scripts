@@ -19,11 +19,7 @@ if [ $# -eq 0 ]; then
 	exit 1
 fi
 
-if ! [ -s $tokenlocation ] && [ -z $MESSAGE ]; then
-	_tokenset
-fi
-
-MESSAGE=$(</dev/stdin)
+[ -s $tokenlocation ] || _tokenset
 
 USERID=$(
 	curl -s -H "Authorization: Bearer $(_tokenget)" https://slack.com/api/users.list \
@@ -36,7 +32,7 @@ CHANNELID=$(
 RECIPIENT=${USERID:-$CHANNELID}
 
 curl -X POST -H "Authorization: Bearer $(_tokenget)" \
-     -F "text=$MESSAGE" -F "channel=$RECIPIENT" \
+     -F "text=$(cat -)" -F "channel=$RECIPIENT" \
      https://slack.com/api/chat.postMessage
 
 echo
