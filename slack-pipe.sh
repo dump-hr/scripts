@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# pipe messages to slack
+# pipe stdin to slack
 
 tokenlocation=~/.slack-pipe-token
 
@@ -15,7 +15,7 @@ _tokenget() {
 }
 
 if [ $# -eq 0 ]; then
-	echo "pipe messages to slack"
+	echo "pipe stdin to slack"
 	exit 1
 fi
 
