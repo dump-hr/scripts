@@ -5,15 +5,23 @@
 tokenlocation=~/.slack-remind-token
 
 _tokenset() {
-	echo -n Enter Slack user token:
-	read token
-	echo $token > $tokenlocation
+	printf "%s" "Enter Slack user token: "
+	read -r token
+	echo "$token" > $tokenlocation
 }
 
 _tokenget() {
-	[ -s $tokenlocation ] || _tokenset
 	cat $tokenlocation
 }
+
+if [ $# -eq 0 ]; then
+	echo "slack remind cli"
+	echo
+	echo "  -m --message"
+	echo "  -t --time"
+	echo "  -u --user"
+	exit 1
+fi
 
 while test $# -gt 0; do
 	case "$1" in
@@ -24,14 +32,7 @@ while test $# -gt 0; do
 	shift
 done
 
-if [ $# -eq 0 ]; then
-	echo "slack remind cli"
-	echo
-	echo "  -m --message"
-	echo "  -t --time"
-	echo "  -u --user"
-	exit 1
-fi
+[ -s $tokenlocation ] || _tokenset
 
 if [ -n "$USER" ]; then
 	USERID=$(
