@@ -31,8 +31,11 @@ CHANNELID=$(
 )
 RECIPIENT=${USERID:-$CHANNELID}
 
+TEXT="device: \`$HOSTNAME\`, user: \`$USER\`, date: \`$(date +%Y-%m-%dT%H:%M:%S%z)\`
+\`\`\`$(cat -)\`\`\`"
+
 curl -X POST -H "Authorization: Bearer $(_tokenget)" \
-     -F "text=$(cat -)" -F "channel=$RECIPIENT" \
+     -F "text=$TEXT" -F "channel=$RECIPIENT" \
      https://slack.com/api/chat.postMessage
 
 echo
